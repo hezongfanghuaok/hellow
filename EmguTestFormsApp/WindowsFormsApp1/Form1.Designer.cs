@@ -46,7 +46,6 @@
             this.save = new System.Windows.Forms.Button();
             this.smooth = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.button4 = new System.Windows.Forms.Button();
             this.erode_button = new System.Windows.Forms.Button();
             this.open_button = new System.Windows.Forms.Button();
@@ -60,7 +59,7 @@
             // 
             // button_turntogray
             // 
-            this.button_turntogray.Location = new System.Drawing.Point(93, 385);
+            this.button_turntogray.Location = new System.Drawing.Point(136, 587);
             this.button_turntogray.Name = "button_turntogray";
             this.button_turntogray.Size = new System.Drawing.Size(100, 23);
             this.button_turntogray.TabIndex = 3;
@@ -70,7 +69,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(12, 385);
+            this.button2.Location = new System.Drawing.Point(55, 587);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 4;
@@ -80,7 +79,7 @@
             // 
             // roi
             // 
-            this.roi.Location = new System.Drawing.Point(199, 385);
+            this.roi.Location = new System.Drawing.Point(242, 587);
             this.roi.Name = "roi";
             this.roi.Size = new System.Drawing.Size(45, 23);
             this.roi.TabIndex = 5;
@@ -90,7 +89,7 @@
             // 
             // throd
             // 
-            this.throd.Location = new System.Drawing.Point(311, 385);
+            this.throd.Location = new System.Drawing.Point(354, 587);
             this.throd.Name = "throd";
             this.throd.Size = new System.Drawing.Size(75, 23);
             this.throd.TabIndex = 6;
@@ -100,7 +99,7 @@
             // 
             // canndy
             // 
-            this.canndy.Location = new System.Drawing.Point(392, 385);
+            this.canndy.Location = new System.Drawing.Point(435, 587);
             this.canndy.Name = "canndy";
             this.canndy.Size = new System.Drawing.Size(75, 23);
             this.canndy.TabIndex = 7;
@@ -110,7 +109,7 @@
             // 
             // contours
             // 
-            this.contours.Location = new System.Drawing.Point(473, 385);
+            this.contours.Location = new System.Drawing.Point(516, 587);
             this.contours.Name = "contours";
             this.contours.Size = new System.Drawing.Size(75, 23);
             this.contours.TabIndex = 8;
@@ -121,7 +120,7 @@
             // txt_h
             // 
             this.txt_h.Font = new System.Drawing.Font("宋体", 12F);
-            this.txt_h.Location = new System.Drawing.Point(740, 417);
+            this.txt_h.Location = new System.Drawing.Point(1266, 121);
             this.txt_h.Name = "txt_h";
             this.txt_h.Size = new System.Drawing.Size(104, 26);
             this.txt_h.TabIndex = 181;
@@ -130,7 +129,7 @@
             // txt_w
             // 
             this.txt_w.Font = new System.Drawing.Font("宋体", 12F);
-            this.txt_w.Location = new System.Drawing.Point(587, 420);
+            this.txt_w.Location = new System.Drawing.Point(1266, 51);
             this.txt_w.Name = "txt_w";
             this.txt_w.Size = new System.Drawing.Size(104, 26);
             this.txt_w.TabIndex = 180;
@@ -140,7 +139,7 @@
             // 
             this.label34.AutoSize = true;
             this.label34.Font = new System.Drawing.Font("宋体", 12F);
-            this.label34.Location = new System.Drawing.Point(698, 421);
+            this.label34.Location = new System.Drawing.Point(1224, 125);
             this.label34.Name = "label34";
             this.label34.Size = new System.Drawing.Size(24, 16);
             this.label34.TabIndex = 179;
@@ -150,7 +149,7 @@
             // 
             this.label35.AutoSize = true;
             this.label35.Font = new System.Drawing.Font("宋体", 12F);
-            this.label35.Location = new System.Drawing.Point(554, 421);
+            this.label35.Location = new System.Drawing.Point(1233, 52);
             this.label35.Name = "label35";
             this.label35.Size = new System.Drawing.Size(24, 16);
             this.label35.TabIndex = 178;
@@ -159,7 +158,7 @@
             // txt_y
             // 
             this.txt_y.Font = new System.Drawing.Font("宋体", 12F);
-            this.txt_y.Location = new System.Drawing.Point(740, 379);
+            this.txt_y.Location = new System.Drawing.Point(1266, 83);
             this.txt_y.Name = "txt_y";
             this.txt_y.Size = new System.Drawing.Size(104, 26);
             this.txt_y.TabIndex = 177;
@@ -168,7 +167,7 @@
             // txt_x
             // 
             this.txt_x.Font = new System.Drawing.Font("宋体", 12F);
-            this.txt_x.Location = new System.Drawing.Point(587, 382);
+            this.txt_x.Location = new System.Drawing.Point(1266, 13);
             this.txt_x.Name = "txt_x";
             this.txt_x.Size = new System.Drawing.Size(104, 26);
             this.txt_x.TabIndex = 176;
@@ -178,7 +177,7 @@
             // 
             this.label36.AutoSize = true;
             this.label36.Font = new System.Drawing.Font("宋体", 12F);
-            this.label36.Location = new System.Drawing.Point(698, 383);
+            this.label36.Location = new System.Drawing.Point(1224, 87);
             this.label36.Name = "label36";
             this.label36.Size = new System.Drawing.Size(24, 16);
             this.label36.TabIndex = 175;
@@ -188,7 +187,7 @@
             // 
             this.label37.AutoSize = true;
             this.label37.Font = new System.Drawing.Font("宋体", 12F);
-            this.label37.Location = new System.Drawing.Point(554, 383);
+            this.label37.Location = new System.Drawing.Point(1233, 14);
             this.label37.Name = "label37";
             this.label37.Size = new System.Drawing.Size(24, 16);
             this.label37.TabIndex = 174;
@@ -196,7 +195,7 @@
             // 
             // save
             // 
-            this.save.Location = new System.Drawing.Point(671, 320);
+            this.save.Location = new System.Drawing.Point(683, 874);
             this.save.Name = "save";
             this.save.Size = new System.Drawing.Size(100, 23);
             this.save.TabIndex = 182;
@@ -206,7 +205,7 @@
             // 
             // smooth
             // 
-            this.smooth.Location = new System.Drawing.Point(250, 385);
+            this.smooth.Location = new System.Drawing.Point(293, 587);
             this.smooth.Name = "smooth";
             this.smooth.Size = new System.Drawing.Size(55, 23);
             this.smooth.TabIndex = 183;
@@ -216,7 +215,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(671, 33);
+            this.button3.Location = new System.Drawing.Point(683, 587);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(100, 23);
             this.button3.TabIndex = 184;
@@ -224,17 +223,9 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(850, 73);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(742, 554);
-            this.textBox1.TabIndex = 186;
-            // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(75, 450);
+            this.button4.Location = new System.Drawing.Point(604, 588);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(73, 22);
             this.button4.TabIndex = 187;
@@ -244,7 +235,7 @@
             // 
             // erode_button
             // 
-            this.erode_button.Location = new System.Drawing.Point(671, 62);
+            this.erode_button.Location = new System.Drawing.Point(789, 587);
             this.erode_button.Name = "erode_button";
             this.erode_button.Size = new System.Drawing.Size(75, 23);
             this.erode_button.TabIndex = 188;
@@ -254,7 +245,7 @@
             // 
             // open_button
             // 
-            this.open_button.Location = new System.Drawing.Point(671, 106);
+            this.open_button.Location = new System.Drawing.Point(870, 587);
             this.open_button.Name = "open_button";
             this.open_button.Size = new System.Drawing.Size(75, 23);
             this.open_button.TabIndex = 189;
@@ -264,7 +255,7 @@
             // 
             // button_dft
             // 
-            this.button_dft.Location = new System.Drawing.Point(671, 135);
+            this.button_dft.Location = new System.Drawing.Point(951, 588);
             this.button_dft.Name = "button_dft";
             this.button_dft.Size = new System.Drawing.Size(75, 23);
             this.button_dft.TabIndex = 190;
@@ -274,25 +265,25 @@
             // 
             // imageBox2
             // 
-            this.imageBox2.Location = new System.Drawing.Point(335, 1);
+            this.imageBox2.Location = new System.Drawing.Point(604, 10);
             this.imageBox2.Name = "imageBox2";
-            this.imageBox2.Size = new System.Drawing.Size(330, 367);
+            this.imageBox2.Size = new System.Drawing.Size(617, 553);
             this.imageBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imageBox2.TabIndex = 185;
             this.imageBox2.TabStop = false;
             // 
             // imageBox1
             // 
-            this.imageBox1.Location = new System.Drawing.Point(-1, 1);
+            this.imageBox1.Location = new System.Drawing.Point(12, 12);
             this.imageBox1.Name = "imageBox1";
-            this.imageBox1.Size = new System.Drawing.Size(330, 367);
+            this.imageBox1.Size = new System.Drawing.Size(586, 551);
             this.imageBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imageBox1.TabIndex = 2;
             this.imageBox1.TabStop = false;
             // 
             // button_CornerHarris
             // 
-            this.button_CornerHarris.Location = new System.Drawing.Point(671, 174);
+            this.button_CornerHarris.Location = new System.Drawing.Point(1032, 587);
             this.button_CornerHarris.Name = "button_CornerHarris";
             this.button_CornerHarris.Size = new System.Drawing.Size(75, 23);
             this.button_CornerHarris.TabIndex = 191;
@@ -304,13 +295,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1535, 794);
+            this.ClientSize = new System.Drawing.Size(1388, 645);
             this.Controls.Add(this.button_CornerHarris);
             this.Controls.Add(this.button_dft);
             this.Controls.Add(this.open_button);
             this.Controls.Add(this.erode_button);
             this.Controls.Add(this.button4);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.imageBox2);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.smooth);
@@ -361,7 +351,6 @@
         private System.Windows.Forms.Button smooth;
         private System.Windows.Forms.Button button3;
         private Emgu.CV.UI.ImageBox imageBox2;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button erode_button;
         private System.Windows.Forms.Button open_button;
