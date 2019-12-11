@@ -53,6 +53,8 @@
             this.imageBox2 = new Emgu.CV.UI.ImageBox();
             this.imageBox1 = new Emgu.CV.UI.ImageBox();
             this.button_CornerHarris = new System.Windows.Forms.Button();
+            this.button_Detect = new System.Windows.Forms.Button();
+            this.button_akaz = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).BeginInit();
             this.SuspendLayout();
@@ -291,11 +293,33 @@
             this.button_CornerHarris.UseVisualStyleBackColor = true;
             this.button_CornerHarris.Click += new System.EventHandler(this.button_CornerHarris_Click);
             // 
+            // button_Detect
+            // 
+            this.button_Detect.Location = new System.Drawing.Point(1113, 587);
+            this.button_Detect.Name = "button_Detect";
+            this.button_Detect.Size = new System.Drawing.Size(75, 23);
+            this.button_Detect.TabIndex = 192;
+            this.button_Detect.Text = "Detect";
+            this.button_Detect.UseVisualStyleBackColor = true;
+            this.button_Detect.Click += new System.EventHandler(this.button_Detect_Click);
+            // 
+            // button_akaz
+            // 
+            this.button_akaz.Location = new System.Drawing.Point(1266, 181);
+            this.button_akaz.Name = "button_akaz";
+            this.button_akaz.Size = new System.Drawing.Size(75, 23);
+            this.button_akaz.TabIndex = 193;
+            this.button_akaz.Text = "akaz";
+            this.button_akaz.UseVisualStyleBackColor = true;
+            this.button_akaz.Click += new System.EventHandler(this.button_akaz_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1388, 645);
+            this.Controls.Add(this.button_akaz);
+            this.Controls.Add(this.button_Detect);
             this.Controls.Add(this.button_CornerHarris);
             this.Controls.Add(this.button_dft);
             this.Controls.Add(this.open_button);
@@ -356,6 +380,8 @@
         private System.Windows.Forms.Button open_button;
         private System.Windows.Forms.Button button_dft;
         private System.Windows.Forms.Button button_CornerHarris;
+        private System.Windows.Forms.Button button_Detect;
+        private System.Windows.Forms.Button button_akaz;
     }
 }
 

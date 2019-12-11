@@ -10,12 +10,7 @@ using System.Windows.Forms;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using Emgu.CV.Util;
-using System.Runtime.InteropServices;
-using System.Net.Sockets;
-using System.Net;
-using System.Threading;
-using System.Diagnostics;
-using System.Drawing.Imaging;
+using Emgu.CV.Features2D;
 using System.IO;
 using Emgu.CV.CvEnum;
 
@@ -90,8 +85,8 @@ namespace WindowsFormsApp1
 
         private void throd_Click(object sender, EventArgs e)
         {
-            Image<Gray, byte> image0_threshold;
-            image0_threshold = imagetest.ThresholdBinaryInv(new Gray(30), new Gray(255));
+            Image<Gray, byte> image0_threshold=new Image<Gray, byte>(imagetest.Width,imagetest.Height);
+            CvInvoke.Threshold(imagetest,image0_threshold,0,255,ThresholdType.Otsu);
             imagetest = image0_threshold;
             imageBox1.Image = imagetest;
         }
@@ -364,7 +359,59 @@ namespace WindowsFormsApp1
             imageBox2.Image = cornmat;//显示角点检测图像
         }
 
+        private void button_Detect_Click(object sender, EventArgs e)
+        {
+            Mat scr = imagemat;
+            Mat result = imagemat.Clone();
+            #region Detect()代码
+            /*
+            GFTTDetector _gftd = new GFTTDetector();//以默认参数创建 GFTTDetector 类。 
+            MKeyPoint[] keypoints = _gftd.Detect(scr, null);//检测关键点，返回 MKeyPoint[]。
+            foreach (MKeyPoint keypoint in keypoints)//遍历 MKeyPoint[]数组。
+            {
+                Point point = Point.Truncate(keypoint.Point);//获得关键点的坐 标位置，以 Point 类型。
+                CvInvoke.Circle(result, point, 3, new MCvScalar(0, 0, 255), 1);//绘 制关键点的位置，以 Circle 形式。
+            }
+            */
+            #endregion
+            #region DetectRaw() code
+            GFTTDetector _gftd = new GFTTDetector();//以默认参数创建 GFTTDetector 类。 
+            VectorOfKeyPoint vector_keypoints = new VectorOfKeyPoint();//创建 VectorOfKeyPoint 类型，存储关键点集合。
+            _gftd.DetectRaw(scr, vector_keypoints, null);//检测关键点。
+            foreach (MKeyPoint keypoint in vector_keypoints.ToArray())//遍历 MKeyPoint[]数组。 
+            {
+                Point point = Point.Truncate(keypoint.Point);//获得关键点的坐 标位置，以 Point 类型。 
+                CvInvoke.Circle(result, point, 3, new MCvScalar(255, 255, 0), 1);//绘制关键点的位置，以 Circle 形式。 
+            }
+            #endregion
+            imageBox1.Image = scr;//显示输入图像。 
+            imageBox2.Image = result;//显示角点检测图像。
+        }
 
+        private void button_akaz_Click(object sender, EventArgs e)
+        {
+            Mat scr = imagemat;
+            Mat result = imagemat.Clone();
+            VectorOfKeyPoint vector_keypoints = new VectorOfKeyPoint();// 创 建 VectorOfKeyPoint 类型，存储关键点集合。
+            #region akaz
+            //AKAZE _akaze = new AKAZE();//以默认参数创建 AKAZE 类。            
+            // _akaze.DetectRaw(scr, vector_keypoints,null);
+            #endregion
+            # region Brisk
+           // Brisk _brisk = new Brisk(30, 1, 1f); ;//以默认参数创建 BriskE 类。
+           // _brisk.DetectRaw(scr, vector_keypoints, null);//检测关键点。
+            #endregion
+            # region ORBDetector scalefactor影响因子 调大调小得出不同的检测数量
+            ORBDetector _orbdetector = new ORBDetector(186, 1.9f, 10,30,1,8,ORBDetector.ScoreType.Harris,31,20); ;//以默认参数创建 BriskE 类。
+            _orbdetector.DetectRaw(scr, vector_keypoints, null);//检测关键点。
+            #endregion
+            Features2DToolbox.DrawKeypoints(scr, vector_keypoints, result, new Bgr(0, 0, 255), Features2DToolbox.KeypointDrawType.NotDrawSinglePoints);//指定 参数 绘 制关键点
+            #region 
+            //相应的描述算子还有 FastDetector  MSERDetector ORBDetector
+            #endregion
+            imageBox1.Image = scr;//显示输入图像。 
+            imageBox2.Image = result;//显示角点检测图像。
+        }
     }
     }
 
