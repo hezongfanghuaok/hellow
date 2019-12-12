@@ -13,7 +13,7 @@ using Emgu.CV.Util;
 using Emgu.CV.Features2D;
 using System.IO;
 using Emgu.CV.CvEnum;
-
+using Emgu.CV.XFeatures2D;
 namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
@@ -39,6 +39,7 @@ namespace WindowsFormsApp1
                 {
                     imagebgr = new Image<Bgr, byte>(op.FileName);
                     imagemat = new Mat(op.FileName, ImreadModes.AnyColor);
+                    imagematgray = new Mat(op.FileName, ImreadModes.Grayscale);
                     if (imagebgr.NumberOfChannels > 1)
                     {
                         imagetest = new Image<Gray, byte>(imagebgr.Width, imagebgr.Height);
@@ -411,6 +412,102 @@ namespace WindowsFormsApp1
             #endregion
             imageBox1.Image = scr;//显示输入图像。 
             imageBox2.Image = result;//显示角点检测图像。
+        }
+
+        private void hisbox_button_Click(object sender, EventArgs e)//直方图相关
+        {
+            histogramBox1.ClearHistogram();
+            histogramBox1.GenerateHistograms(imagematgray, 256);
+            histogramBox1.Refresh();
+            histogramBox1.Show();
+            #region 计算直方图数据
+            //DenseHistogram dense = new DenseHistogram(256, new RangeF(0, 255));
+            //Image<Bgr, byte> image = new Image<Bgr, byte>(300, 300, new Bgr(0, 0, 0));
+            //dense.Calculate(new Image<Gray, Byte>[] { imagematgray.ToImage<Gray, byte>()}, true, null);
+            //float[] data = dense.GetBinValues();
+            //float max = data[0];
+            //for (int i = 1; i < data.Length; i++)
+            //{
+            //    if (data[i] > max)
+            //    {
+            //        max = data[i];
+            //    }
+            //}
+            //for (int i = 0; i < data.Length; i++)
+            //{
+            //    data[i] = data[i] * 256 / max;
+            //    image.Draw(new LineSegment2DF(new PointF(i + 20, 255), new PointF(i + 21, 255 - data[i])), new Bgr(255, 255, 255), 2);
+            //}
+            #endregion
+
+            Mat dst = new Mat();
+            CvInvoke.EqualizeHist(imagematgray, dst);
+            imageBox1.Image = imagematgray;
+            imageBox2.Image = dst;
+            histogramBox2.ClearHistogram();
+            histogramBox2.GenerateHistograms(dst, 256);
+            histogramBox2.Refresh();
+            histogramBox2.Show();
+        }
+
+        private void template_button_Click(object sender, EventArgs e)//模板匹配
+        {
+            Mat scr = imagemat.Clone();//待搜索图片
+            Mat temp = new Mat(@"D:\github\temp.jpg", ImreadModes.AnyColor);//匹配模板
+            Mat result = new Mat(new Size(scr.Width - temp.Width + 1, scr.Height - temp.Height + 1), DepthType.Cv32F, 1);//创建mat存储输出结果
+            CvInvoke.MatchTemplate(scr, temp, result, Emgu.CV.CvEnum.TemplateMatchingType.SqdiffNormed);//采用匹配法，匹配值越大越掘金准确图片
+            CvInvoke.Normalize(result, result, 255, 0, Emgu.CV.CvEnum.NormType.MinMax); //把数据进行以最大值 255 最小值 0 进行归一化。
+            double max = 0, min = 0; //创建 double 的极值。
+            Point max_loc = new Point(0, 0), min_loc = new Point(0, 0); //创建 dPoint 类型，表示极值的坐标。
+            CvInvoke.MinMaxLoc(result, ref min, ref max, ref min_loc, ref max_loc); //获得极值及其坐标。
+            CvInvoke.Rectangle(scr, new Rectangle(max_loc, temp.Size), new MCvScalar(0, 0, 255), 3); //绘制矩形，匹配得到的效果。
+            imageBox1.Image = temp; //显示模板图片。
+            imageBox2.Image = scr.ToImage<Bgr, byte>();//显示找到模板图片的带搜索图片。
+                                                       //imageBox3.Image = result.ToImage<Gray, byte>(); //显示匹配结果，这边如果 imageBox3.Image = result 显示 为全黑，必须转成把类型转成 Byte。
+            result = result.ToImage<Gray, byte>().Mat; //result 类型转成 Byte 类型。
+            VectorOfVectorOfPoint contours = new VectorOfVectorOfPoint(); //创建 VectorOfVectorOfPoint 类型保存轮廓。
+            int threshold = 60; //设置阈值。
+            CvInvoke.Threshold(result, result, threshold, 255, Emgu.CV.CvEnum.ThresholdType.BinaryInv); //阈值操作。
+            CvInvoke.FindContours(result, contours, null, Emgu.CV.CvEnum.RetrType.External, Emgu.CV.CvEnum.ChainApproxMethod.ChainApproxSimple); //存储轮廓。
+            for (int i = 0; i < contours.Size; i++)//遍历每个连通 域。
+            {
+                VectorOfPoint contour = contours[i];
+                MCvMoments moment = CvInvoke.Moments(contour); //获得连通域的矩
+                Point p = new Point((int)(moment.M10 / moment.M00), (int)(moment.M01 / moment.M00)); //获得连通域的中心
+                CvInvoke.Rectangle(scr, new Rectangle(p, temp.Size), new MCvScalar(0, 0, 255), 4);
+
+            }
+            imageBox1.Image = temp; //显示模板图片。
+            imageBox2.Image = scr.ToImage<Bgr, byte>();//显示找到模板图片的带搜索图片。
+        }
+
+        private void featuremach_button_Click(object sender, EventArgs e)
+        {
+            Mat scr = new Mat(@"D:\github\box.png", ImreadModes.AnyColor);//指定目录创 建输入图像。 
+            Mat dst = new Mat(@"D:\github\box_in_scene.png", ImreadModes.AnyColor);//指 定目录创建输入图像。 
+            ORBDetector orb = new ORBDetector();//默认方式实例化 ORBDetector 类。
+            VectorOfKeyPoint scr_key_point = new VectorOfKeyPoint();//实例化一 个存储 scr 关键点的 VectorOfKeyPoint 类。 
+            VectorOfKeyPoint dst_key_point = new VectorOfKeyPoint();//实例化一 个存储 dst 关键点的 VectorOfKeyPoint 类。
+            orb.DetectRaw(scr, scr_key_point);//对 scr 的特征点进行检测。 
+            orb.DetectRaw(dst, dst_key_point);//对 dst 的特征点进行检测。
+            Features2DToolbox.DrawKeypoints(scr, scr_key_point, scr, new Bgr(0, 0, 255), Features2DToolbox.KeypointDrawType.Default);//绘制特征点。 
+            Features2DToolbox.DrawKeypoints(dst, dst_key_point, dst, new Bgr(0, 0, 255), Features2DToolbox.KeypointDrawType.Default);//绘制特征点。
+            imageBox1.Image = scr;//显示图像。 
+            imageBox2.Image = dst;//显示图像。
+            BriefDescriptorExtractor brief = new BriefDescriptorExtractor(); //默认参数实例化 BriefDescriptorExtractor 类。
+            Mat scr_descriptor = new Mat();//实例化 Mat 存储 scr 图像检 测到的描述子。
+            Mat dst_descriptor = new Mat();//实例化 Mat 存储 dst 图像检 测到的描述子。
+            brief.Compute(scr, scr_key_point, scr_descriptor);// 使 用特 定参数进行 scr 描述子的提取。
+            brief.Compute(dst, dst_key_point, dst_descriptor);//使用特定 参数进行 dst 描述子的提取。
+            BFMatcher match = new BFMatcher(DistanceType.Hamming);//汉明距离创 建特征匹配类。
+            match.Add(scr_descriptor);//添加模型描述子。
+            VectorOfVectorOfDMatch matches = new VectorOfVectorOfDMatch();//创建 类，存储比较结果。
+            match.KnnMatch(dst_descriptor, matches, 2, null);//进行描述子匹配。
+            Mat result = new Mat();//绘制特征点和描述子输出图像。 
+            Features2DToolbox.DrawMatches(scr, scr_key_point, dst, dst_key_point, matches, result, new MCvScalar(255, 255, 255), new MCvScalar(0, 0, 255)); //绘制关键点及描述子。
+            imageBox1.Image = result;//显示图像。
+
+
         }
     }
     }

@@ -55,6 +55,11 @@
             this.button_CornerHarris = new System.Windows.Forms.Button();
             this.button_Detect = new System.Windows.Forms.Button();
             this.button_akaz = new System.Windows.Forms.Button();
+            this.histogramBox1 = new Emgu.CV.UI.HistogramBox();
+            this.hisbox_button = new System.Windows.Forms.Button();
+            this.histogramBox2 = new Emgu.CV.UI.HistogramBox();
+            this.template_button = new System.Windows.Forms.Button();
+            this.featuremach_button = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).BeginInit();
             this.SuspendLayout();
@@ -267,9 +272,9 @@
             // 
             // imageBox2
             // 
-            this.imageBox2.Location = new System.Drawing.Point(604, 10);
+            this.imageBox2.Location = new System.Drawing.Point(435, 10);
             this.imageBox2.Name = "imageBox2";
-            this.imageBox2.Size = new System.Drawing.Size(617, 553);
+            this.imageBox2.Size = new System.Drawing.Size(411, 401);
             this.imageBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imageBox2.TabIndex = 185;
             this.imageBox2.TabStop = false;
@@ -278,7 +283,7 @@
             // 
             this.imageBox1.Location = new System.Drawing.Point(12, 12);
             this.imageBox1.Name = "imageBox1";
-            this.imageBox1.Size = new System.Drawing.Size(586, 551);
+            this.imageBox1.Size = new System.Drawing.Size(417, 399);
             this.imageBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imageBox1.TabIndex = 2;
             this.imageBox1.TabStop = false;
@@ -313,11 +318,60 @@
             this.button_akaz.UseVisualStyleBackColor = true;
             this.button_akaz.Click += new System.EventHandler(this.button_akaz_Click);
             // 
+            // histogramBox1
+            // 
+            this.histogramBox1.Location = new System.Drawing.Point(852, 14);
+            this.histogramBox1.Name = "histogramBox1";
+            this.histogramBox1.Size = new System.Drawing.Size(366, 208);
+            this.histogramBox1.TabIndex = 194;
+            // 
+            // hisbox_button
+            // 
+            this.hisbox_button.Location = new System.Drawing.Point(55, 537);
+            this.hisbox_button.Name = "hisbox_button";
+            this.hisbox_button.Size = new System.Drawing.Size(75, 23);
+            this.hisbox_button.TabIndex = 195;
+            this.hisbox_button.Text = "histogram";
+            this.hisbox_button.UseVisualStyleBackColor = true;
+            this.hisbox_button.Click += new System.EventHandler(this.hisbox_button_Click);
+            // 
+            // histogramBox2
+            // 
+            this.histogramBox2.Location = new System.Drawing.Point(852, 228);
+            this.histogramBox2.Name = "histogramBox2";
+            this.histogramBox2.Size = new System.Drawing.Size(366, 208);
+            this.histogramBox2.TabIndex = 196;
+            // 
+            // template_button
+            // 
+            this.template_button.Location = new System.Drawing.Point(136, 537);
+            this.template_button.Name = "template_button";
+            this.template_button.Size = new System.Drawing.Size(75, 23);
+            this.template_button.TabIndex = 197;
+            this.template_button.Text = "template";
+            this.template_button.UseVisualStyleBackColor = true;
+            this.template_button.Click += new System.EventHandler(this.template_button_Click);
+            // 
+            // featuremach_button
+            // 
+            this.featuremach_button.Location = new System.Drawing.Point(217, 537);
+            this.featuremach_button.Name = "featuremach_button";
+            this.featuremach_button.Size = new System.Drawing.Size(75, 23);
+            this.featuremach_button.TabIndex = 198;
+            this.featuremach_button.Text = "featuremach";
+            this.featuremach_button.UseVisualStyleBackColor = true;
+            this.featuremach_button.Click += new System.EventHandler(this.featuremach_button_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1388, 645);
+            this.Controls.Add(this.featuremach_button);
+            this.Controls.Add(this.template_button);
+            this.Controls.Add(this.histogramBox2);
+            this.Controls.Add(this.hisbox_button);
+            this.Controls.Add(this.histogramBox1);
             this.Controls.Add(this.button_akaz);
             this.Controls.Add(this.button_Detect);
             this.Controls.Add(this.button_CornerHarris);
@@ -382,6 +436,11 @@
         private System.Windows.Forms.Button button_CornerHarris;
         private System.Windows.Forms.Button button_Detect;
         private System.Windows.Forms.Button button_akaz;
+        private Emgu.CV.UI.HistogramBox histogramBox1;
+        private System.Windows.Forms.Button hisbox_button;
+        private Emgu.CV.UI.HistogramBox histogramBox2;
+        private System.Windows.Forms.Button template_button;
+        private System.Windows.Forms.Button featuremach_button;
     }
 }
 
