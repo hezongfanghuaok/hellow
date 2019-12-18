@@ -494,20 +494,90 @@ namespace WindowsFormsApp1
             Features2DToolbox.DrawKeypoints(dst, dst_key_point, dst, new Bgr(0, 0, 255), Features2DToolbox.KeypointDrawType.Default);//绘制特征点。
             imageBox1.Image = scr;//显示图像。 
             imageBox2.Image = dst;//显示图像。
-            BriefDescriptorExtractor brief = new BriefDescriptorExtractor(); //默认参数实例化 BriefDescriptorExtractor 类。
-            Mat scr_descriptor = new Mat();//实例化 Mat 存储 scr 图像检 测到的描述子。
-            Mat dst_descriptor = new Mat();//实例化 Mat 存储 dst 图像检 测到的描述子。
-            brief.Compute(scr, scr_key_point, scr_descriptor);// 使 用特 定参数进行 scr 描述子的提取。
+            BriefDescriptorExtractor brief = new BriefDescriptorExtractor(); //默认参数实例化 BriefDescriptorExtractor 类。一种描述子
+            Mat scr_descriptor = new Mat();//实例化 Mat 存储 scr 图像检测到的描述子。
+            Mat dst_descriptor = new Mat();//实例化 Mat 存储 dst 图像检测到的描述子。
+            brief.Compute(scr, scr_key_point, scr_descriptor);// 使 用特 定参数进行 scr 描述子的提取。通过提取关键点形成特定的描述子
             brief.Compute(dst, dst_key_point, dst_descriptor);//使用特定 参数进行 dst 描述子的提取。
             BFMatcher match = new BFMatcher(DistanceType.Hamming);//汉明距离创 建特征匹配类。
             match.Add(scr_descriptor);//添加模型描述子。
             VectorOfVectorOfDMatch matches = new VectorOfVectorOfDMatch();//创建 类，存储比较结果。
             match.KnnMatch(dst_descriptor, matches, 2, null);//进行描述子匹配。
-            Mat result = new Mat();//绘制特征点和描述子输出图像。 
+            Mat result = new Mat();//绘制特征点和描述子输出图像。
+
+            Mat mask = new Mat(matches.Size, 1, DepthType.Cv8U, 1);//创建蒙版矩阵。
+            mask.SetTo(new MCvScalar(1));//蒙版矩阵的值全部为 1（非 0 即可）。
+            Features2DToolbox.VoteForUniqueness(matches, 0.8, mask);//进行投票阈值筛选
+            Features2DToolbox.VoteForSizeAndOrientation(scr_key_point, dst_key_point, matches, mask, 1.5, 20);//进行尺度旋转筛选。
             Features2DToolbox.DrawMatches(scr, scr_key_point, dst, dst_key_point, matches, result, new MCvScalar(255, 255, 255), new MCvScalar(0, 0, 255)); //绘制关键点及描述子。
+
+            Mat mat1 = new Mat();//创建矩阵。
+            mat1 = Features2DToolbox.GetHomographyMatrixFromMatchedFeatures(scr_key_point, dst_key_point, matches, mask, 2);//获取仿射矩阵。
+            Rectangle rect = new Rectangle(Point.Empty, scr.Size);//获取模型图片的大 小，
+            PointF[] pts = new PointF[]//以模型图片的四个顶点坐标实例化 PointF 数组。
+                    {
+                    new PointF(rect.Left, rect.Bottom),
+                    new PointF(rect.Right, rect.Bottom),
+                    new PointF(rect.Right, rect.Top),
+                    new PointF(rect.Left, rect.Top)
+                    };
+            pts = CvInvoke.PerspectiveTransform(pts, mat1);//进行仿射变换
+            Point[] points = Array.ConvertAll<PointF, Point>(pts, Point.Round);//把 PointF[]类型转成 Point[]类型。
+            using (VectorOfPoint vp = new VectorOfPoint(points))
+            {
+                CvInvoke.Polylines(result, vp, true, new MCvScalar(255, 0, 0, 255),5);//绘制仿射后的闭合图形。
+            }
+
+
+            
             imageBox1.Image = result;//显示图像。
 
 
+        }
+
+        private void surf_button_Click(object sender, EventArgs e)
+        {
+            Mat scr = new Mat(@"D:\github\box.png", ImreadModes.AnyColor);//指定目录创 建输入图像。 
+            Mat dst = new Mat(@"D:\github\box_in_scene.png", ImreadModes.AnyColor);//指 定目录创建输入图像。 
+            SIFT sift = new SIFT();//默认方式实例化 SIFT 类。
+            VectorOfKeyPoint scr_key_point = new VectorOfKeyPoint();//实例化一 个存储 scr 关键点的 VectorOfKeyPoint 类。 
+            VectorOfKeyPoint dst_key_point = new VectorOfKeyPoint();//实例化一 个存储 dst 关键点的 VectorOfKeyPoint 类。           
+            Mat scr_descriptor = new Mat();//实例化 Mat 存储 scr 图像检测到的描述子。
+            Mat dst_descriptor = new Mat();//实例化 Mat 存储 dst 图像检测到的描述子。
+            sift.DetectAndCompute(scr,null, scr_key_point, scr_descriptor,false);// 使 用特 定参数进行 scr 描述子的提取。通过提取关键点形成特定的描述子
+            sift.DetectAndCompute(dst, null, dst_key_point, dst_descriptor, false);//使用特定 参数进行 dst 描述子的提取。
+            BFMatcher match = new BFMatcher(DistanceType.L2);//汉明距离创 建特征匹配类。
+            match.Add(scr_descriptor);//添加模型描述子。
+            VectorOfVectorOfDMatch matches = new VectorOfVectorOfDMatch();//创建 类，存储比较结果。
+            match.KnnMatch(dst_descriptor, matches, 2, null);//进行描述子匹配。
+            Mat result = new Mat();//绘制特征点和描述子输出图像。
+
+            Mat mask = new Mat(matches.Size, 1, DepthType.Cv8U, 1);//创建蒙版矩阵。
+            mask.SetTo(new MCvScalar(1));//蒙版矩阵的值全部为 1（非 0 即可）。
+            Features2DToolbox.VoteForUniqueness(matches, 0.8, mask);//进行投票阈值筛选
+            Features2DToolbox.VoteForSizeAndOrientation(scr_key_point, dst_key_point, matches, mask, 1.5, 20);//进行尺度旋转筛选。
+            Features2DToolbox.DrawMatches(scr, scr_key_point, dst, dst_key_point, matches, result, new MCvScalar(255, 255, 255), new MCvScalar(0, 0, 255)); //绘制关键点及描述子。
+
+            Mat mat1 = new Mat();//创建矩阵。
+            mat1 = Features2DToolbox.GetHomographyMatrixFromMatchedFeatures(scr_key_point, dst_key_point, matches, mask, 2);//获取仿射矩阵。
+            Rectangle rect = new Rectangle(Point.Empty, scr.Size);//获取模型图片的大 小，
+            PointF[] pts = new PointF[]//以模型图片的四个顶点坐标实例化 PointF 数组。
+                    {
+                    new PointF(rect.Left, rect.Bottom),
+                    new PointF(rect.Right, rect.Bottom),
+                    new PointF(rect.Right, rect.Top),
+                    new PointF(rect.Left, rect.Top)
+                    };
+            pts = CvInvoke.PerspectiveTransform(pts, mat1);//进行仿射变换
+            Point[] points = Array.ConvertAll<PointF, Point>(pts, Point.Round);//把 PointF[]类型转成 Point[]类型。
+            using (VectorOfPoint vp = new VectorOfPoint(points))
+            {
+                CvInvoke.Polylines(result, vp, true, new MCvScalar(255, 0, 0, 255), 5);//绘制仿射后的闭合图形。
+            }
+
+
+
+            imageBox1.Image = result;//显示图像。
         }
     }
     }

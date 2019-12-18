@@ -15,10 +15,14 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/gpu/gpu.hpp>	
 #include "opencv2/imgproc/imgproc.hpp"  
+#include "opencv2/nonfree/nonfree.hpp"
+#include "opencv2/legacy/legacy.hpp"
 
-#pragma comment(lib,"opencv_highgui2413d.lib")
-#pragma comment(lib,"opencv_core2413d.lib")
-#pragma comment(lib,"opencv_imgproc2413d.lib") 
+//#pragma comment(lib,"opencv_highgui2413d.lib")
+//#pragma comment(lib,"opencv_core2413d.lib")
+//#pragma comment(lib,"opencv_imgproc2413d.lib") 
+//#pragma comment(lib,"opencv_contrib2413d.lib") 
+//#pragma comment(lib,"opencv_features2d2413d.lib")
 
 #include <fstream>
 #include <io.h>

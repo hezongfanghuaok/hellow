@@ -60,6 +60,7 @@
             this.histogramBox2 = new Emgu.CV.UI.HistogramBox();
             this.template_button = new System.Windows.Forms.Button();
             this.featuremach_button = new System.Windows.Forms.Button();
+            this.surf_button = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).BeginInit();
             this.SuspendLayout();
@@ -362,11 +363,22 @@
             this.featuremach_button.UseVisualStyleBackColor = true;
             this.featuremach_button.Click += new System.EventHandler(this.featuremach_button_Click);
             // 
+            // surf_button
+            // 
+            this.surf_button.Location = new System.Drawing.Point(298, 537);
+            this.surf_button.Name = "surf_button";
+            this.surf_button.Size = new System.Drawing.Size(75, 23);
+            this.surf_button.TabIndex = 199;
+            this.surf_button.Text = "sufrmach";
+            this.surf_button.UseVisualStyleBackColor = true;
+            this.surf_button.Click += new System.EventHandler(this.surf_button_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1388, 645);
+            this.Controls.Add(this.surf_button);
             this.Controls.Add(this.featuremach_button);
             this.Controls.Add(this.template_button);
             this.Controls.Add(this.histogramBox2);
@@ -441,6 +453,7 @@
         private Emgu.CV.UI.HistogramBox histogramBox2;
         private System.Windows.Forms.Button template_button;
         private System.Windows.Forms.Button featuremach_button;
+        private System.Windows.Forms.Button surf_button;
     }
 }
 
