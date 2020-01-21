@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.902
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PCL_Demo", "PCL_Demo\PCL_Demo.vcxproj", "{FD978E90-196A-400C-BCAE-E7ADE6E355DC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		PCL|x64 = PCL|x64
+		PCL|x86 = PCL|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FD978E90-196A-400C-BCAE-E7ADE6E355DC}.Debug|x64.ActiveCfg = Debug|x64
+		{FD978E90-196A-400C-BCAE-E7ADE6E355DC}.Debug|x64.Build.0 = Debug|x64
+		{FD978E90-196A-400C-BCAE-E7ADE6E355DC}.Debug|x86.ActiveCfg = Debug|Win32
+		{FD978E90-196A-400C-BCAE-E7ADE6E355DC}.Debug|x86.Build.0 = Debug|Win32
+		{FD978E90-196A-400C-BCAE-E7ADE6E355DC}.PCL|x64.ActiveCfg = Debug|x64
+		{FD978E90-196A-400C-BCAE-E7ADE6E355DC}.PCL|x64.Build.0 = Debug|x64
+		{FD978E90-196A-400C-BCAE-E7ADE6E355DC}.PCL|x86.ActiveCfg = Release|Win32
+		{FD978E90-196A-400C-BCAE-E7ADE6E355DC}.PCL|x86.Build.0 = Release|Win32
+		{FD978E90-196A-400C-BCAE-E7ADE6E355DC}.Release|x64.ActiveCfg = Debug|x64
+		{FD978E90-196A-400C-BCAE-E7ADE6E355DC}.Release|x64.Build.0 = Debug|x64
+		{FD978E90-196A-400C-BCAE-E7ADE6E355DC}.Release|x86.ActiveCfg = Release|Win32
+		{FD978E90-196A-400C-BCAE-E7ADE6E355DC}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8812ECB1-AFD5-4FBC-80C3-08B56D8D3236}
+	EndGlobalSection
+EndGlobal
