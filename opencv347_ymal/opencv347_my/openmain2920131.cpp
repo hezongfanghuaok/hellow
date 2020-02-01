@@ -1,10 +1,35 @@
-﻿#include<opencv2/opencv.hpp>
-#include <vector>
-#include <time.h>
+﻿#include"stdafx.h"
+
 #define N 100;
 #define M 200;
 using namespace std;
 using namespace cv;
+clock_t startTime, endTime;
+void drawhis(Mat src,string windowname)
+{
+	Mat dstHist;       // 在cv中用CvHistogram *hist = cvCreateHist
+	int dims = 1;
+	float hranges[] = { 0, 255 };
+	const float *ranges[] = { hranges };   // 这里需要为const类型
+	int size = 32;//每个维度的直方图尺寸
+	int channels = 0;
+
+	//【3】计算图像的直方图
+	calcHist(&src, 1, &channels, noArray(), dstHist, dims, &size, ranges);    // cv 中是cvCalcHist
+	int scale = 8;
+
+	Mat dstImage(size * scale, 256, CV_8U, Scalar(0));
+	cv::normalize(dstHist, dstHist, 0, 255, cv::NORM_MINMAX);
+
+	//【5】绘制出直方图
+	int hpt = saturate_cast<int>(0.9 * size);
+	for (int i = 0; i < size; i++)
+	{
+		float binValue = dstHist.at<float>(i); //   注意hist中是float类型 
+		rectangle(dstImage, Point(i*scale, 255), Point((i + 1)*scale - 1, 256 - binValue), Scalar(255));
+	}
+	imshow(windowname, dstImage);
+}
 bool loadParams(std::string filename, std::vector<cv::Mat>& vcameraMatrix, std::vector<cv::Mat>& vdistCoeffs)
 {
 	fprintf(stderr, "loadParams.\n");
@@ -110,6 +135,7 @@ float sigmod(T x, T mid, T a)
 {
 	return float(1 / (1 + exp((a * (mid - x)))));
 }
+
 int main()
 {
 	Mat src;
@@ -118,7 +144,7 @@ int main()
 	Mat channel_three;
 	Mat channel_four;
 	Mat channel_s;
-	FileStorage fs2("D:\\0924.yaml", FileStorage::READ);
+	FileStorage fs2("D:\\testimage\\101161kk.yaml", FileStorage::READ);
 	if (!fs2.isOpened())
 	{
 		fprintf(stderr, "%s:%d:loadParams falied. 'camera.yml' does not exist\n", __FILE__, __LINE__);
@@ -129,15 +155,15 @@ int main()
 	vector<Mat> sprit_all;
 	int n = 1;
 	split(src, sprit_all);
-	//sprit_all[0].convertTo(channel_one, CV_32FC1);
-	//sprit_all[1].convertTo(channel_two, CV_32FC1);
-	//sprit_all[2].convertTo(channel_three, CV_32FC1);
-	//sprit_all[3].convertTo(channel_four, CV_32FC1);
-	//float a0 = findmax(vector<float>(channel_one.reshape(1, 1)));
-	//float a1 = findmax(vector<float>(channel_two.reshape(1, 1)));
-	//float a2 = findmax(vector<float>(channel_three.reshape(1, 1)));
-	//float a3 = findmax(vector<float>(channel_four.reshape(1, 1)));
-	//cout << a0 << "  "<<a1 << "  " << a2 << "   " << a3 << endl;
+	/*sprit_all[0].convertTo(channel_one, CV_32FC1);
+	sprit_all[1].convertTo(channel_two, CV_32FC1);
+	sprit_all[2].convertTo(channel_three, CV_32FC1);
+	sprit_all[3].convertTo(channel_four, CV_32FC1);
+	float a0 = findmax(vector<float>(channel_one.reshape(1, 1)));
+	float a1 = findmax(vector<float>(channel_two.reshape(1, 1)));
+	float a2 = findmax(vector<float>(channel_three.reshape(1, 1)));
+	float a3 = findmax(vector<float>(channel_four.reshape(1, 1)));
+	cout << a0 << "  "<<a1 << "  " << a2 << "   " << a3 << endl;*/
 	sprit_all[3].convertTo(channel_one, CV_8UC1);
 	namedWindow("gray", WINDOW_NORMAL);
 	imshow("gray", channel_one);
@@ -146,23 +172,24 @@ int main()
 	imshow("high", channel_two);
 	//channel_s = channel_one.clone();
 //	float a0 = findmax(vector<float>(channel_two.reshape(1, 1)));
-
-
 	Mat model = Mat::zeros(channel_two.rows, channel_two.cols, CV_8UC1);
 	Mat model_show = Mat::zeros(channel_two.rows, channel_two.cols, CV_32FC1);
 	Mat model_z = Mat::zeros(channel_two.rows, channel_two.cols, CV_32FC1);
-	Mat element = getStructuringElement(MORPH_RECT, Size(5, 5));
+	Mat element = getStructuringElement(MORPH_RECT, Size(3,3));
 	for (int i = 0; i < channel_one.rows; i++)
 	{
 		for (int j = 0; j < channel_one.cols; j++)
 		{
-			if (channel_two.at<float>(i, j) < 910)//900时为临界
+			if (channel_two.at<float>(i, j) < 1060)//900时为临界 ==》 0943
 			{
 
-				model_show.at<float>(i, j) = channel_one.at<uchar>(i, j);
-				//if (model_show.at<float>(i, j) != 0)
-				//	cout << channel_one.at<uchar>(i, j) << "...." << model_show.at<float>(i, j) << endl;
-				//model_z.at<float>(i, j) = channel_two.at<float>(i, j);
+				model_show.at<float>(i, j) = channel_one.at<uchar>(i, j);//char convert to float that could calcaulate
+				
+				/*if (model_show.at<float>(i, j) != 0)
+				{
+					uchar temp = channel_one.at<uchar>(i, j);
+					float tempf = model_show.at<float>(i, j);
+				}*/
 			}
 			else
 				continue;
@@ -181,20 +208,20 @@ int main()
 		}
 	}
 	imshow("模型展示赋值为零图", Edge_one);
+	waitKey(0);
 
-	waitKey(0);
+	//取反
 	Mat Edge = Mat::zeros(channel_two.rows, channel_two.cols, CV_32FC1);
-	for (int i = 0; i < channel_two.rows; i++)
-	{
-		for (int j = 0; j < channel_two.cols; j++)
-		{
-			Edge.at<float>(i, j) = 255 - Edge_one.at<float>(i, j);
-		}
-	}
+	Edge = Scalar(255) -Edge_one;//
+	endTime = clock();//计时开始
 	imshow("模型展示图", Edge);
+	
 	waitKey(0);
-	int zero_cout = countNonZero(Edge.clone());
-	Scalar zero_sum = sum(Edge);
+
+	//
+#pragma region logist函数
+	int zero_cout = countNonZero(Edge.clone());//返回矩阵中的非零值个数
+	Scalar zero_sum = sum(Edge);//对mat类四个通道求和
 	float matMean = zero_sum[0] / zero_cout;
 	float angle = 0.2;
 	Mat show = Mat::zeros(channel_two.rows, channel_two.cols, CV_32FC1);
@@ -208,37 +235,81 @@ int main()
 	}
 	imshow("扩大阈值后展示图", show);
 	waitKey(0);
-	Mat show_uchar = show.clone();
-	//show.convertTo(show_uchar, CV_8UC1);
-	//imshow("转换展示图", show_uchar);
+	//中值滤波
+	//medianBlur(show, show, 7);
+	//imshow("blur_im", show);
 	//waitKey(0);
-	morphologyEx(show_uchar, show_uchar, MORPH_CLOSE, element, Point(-1, -1), 10);
-	imshow("闭运算迭代3次结果图", show_uchar);
-	waitKey(0);
+#pragma endregion
+	
 
+	Mat show_uchar = show.clone();
+	morphologyEx(show_uchar, show_uchar, MORPH_CLOSE, element, Point(-1, -1), 10);//
+	imshow("闭运算迭代10次结果图", show_uchar);
+	drawhis(show_uchar,"闭运算结果图");
+	waitKey(0);
+	
 
 	Mat show_change_two;
 	show_uchar.convertTo(show_change_two, CV_8UC1);
 	imshow("转换展示图", show_change_two);
 	waitKey(0);
 
-	Mat show_train = Mat::zeros(channel_two.rows, channel_two.cols, CV_8UC1);
-	morphologyEx(show_change_two, show_train, MORPH_OPEN, element, Point(-1, -1), 1);
-	imshow("开运算迭代1次结果图", show_train);
+#pragma region 调试代码
+	/*show_change_two = ~show_change_two;
+	imshow("qufan", show_change_two);
+	waitKey(0);*/
+	/*//均值滤波
+	blur(show_change_two, show_change_two, Size(3, 3));
+	imshow("blur_im", show_change_two);
 	waitKey(0);
 
-	//Canny(show_train, show_train, 1, 3);
-	//imshow("canny模糊展示图", show_train);
+	threshold(show_change_two, show_change_two, 100, 255, THRESH_BINARY);
+	imshow("binaryim", show_change_two);
+
+		waitKey(0);*/
+
+	//Mat show_train = Mat::zeros(channel_two.rows, channel_two.cols, CV_8UC1);
+	//morphologyEx(show_change_two, show_train, MORPH_DILATE, element, Point(-1, -1), 5);
+	//imshow("开运算迭代5次结果图", show_train);
+	//waitKey(0);
+
+	/*threshold(show_change_two, show_change_two, 100, 255, THRESH_BINARY);
+	imshow("binaryim", show_change_two);
+	waitKey(0);*/
+
+	//Canny(show_change_two, show_change_two, 200, 255);
+	////drawhis(show_train,"candy");
+	//namedWindow("canny模糊展示图", WINDOW_NORMAL);
+	//imshow("canny模糊展示图", show_change_two);
 	//waitKey(0);
 
 
-	//for (int num = 0; num < 2; num++)
-	//	erode(show_train, show_train, element);
-	//imshow("2次膨胀结果图", show_train);
-	//waitKey(0);
+	//Mat show_train2 = Mat::zeros(channel_two.rows, channel_two.cols, CV_8UC1);
+	//vector<Vec2f> lines;//定义一个矢量结构lines用于存放得到的线段矢量集合
+	//HoughLines(show_train, lines, 1, CV_PI / 180, 150, 0, 0);
 
+	////【4】依次在图中绘制出每条线段
+	//for (size_t i = 0; i < lines.size(); i++)
+	//{
+	//	float rho = lines[i][0], theta = lines[i][1];
+	//	Point pt1, pt2;
+	//	double a = cos(theta), b = sin(theta);
+	//	double x0 = a * rho, y0 = b * rho;
+	//	pt1.x = cvRound(x0 + 1000 * (-b));
+	//	pt1.y = cvRound(y0 + 1000 * (a));
+	//	pt2.x = cvRound(x0 - 1000 * (-b));
+	//	pt2.y = cvRound(y0 - 1000 * (a));
+	//	//此句代码的OpenCV2版为:
+	//	//line( dstImage, pt1, pt2, Scalar(55,100,195), 1, CV_AA);
+	//	//此句代码的OpenCV3版为:
+	//	line(show_train2, pt1, pt2, Scalar(255), 1, LINE_AA);
+	//}
+	//imshow("霍夫", show_train2);
+	//waitKey(0);
+#pragma endregion	
+	
 	Mat Edge_result = Mat::zeros(channel_two.rows, channel_two.cols, CV_8UC1);
-	Sobel(show_train, Edge_result, 0, 2, 0, 3, 1, 1, BORDER_DEFAULT);
+	Sobel(show_change_two, Edge_result, CV_8UC1, 2, 0, 3, 1, 1, BORDER_DEFAULT);
 	imshow("第一幅图进行边缘处理结果图", Edge_result);
 	waitKey(0);
 
@@ -247,15 +318,15 @@ int main()
 	imshow("二值重新赋值结果图", Edge_result_two);
 	waitKey(0);
 	for (int num = 0; num < 2; num++)
-		dilate(Edge_result_two, Edge_result_two, element);
-	imshow("再次进行2次膨胀结果图", Edge_result_two);
-	waitKey(0);
+		dilate(Edge_result_two, show_change_two, element);
+	imshow("再次进行2次膨胀结果图", show_change_two);
+	waitKey(0);/**/
 
 
 	Mat result = Mat::zeros(channel_two.rows, channel_two.cols, CV_8UC1);
 	vector<vector<Point>> contours_one;
 	vector<Vec4i>hierarchy_one;
-	findContours(Edge_result_two.clone(), contours_one, hierarchy_one, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+	findContours(show_change_two.clone(), contours_one, hierarchy_one, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
 	vector<vector<Point>> afterFilter;
 	cout << contours_one.size() << endl;
 	vector<vector<Point>>::iterator itc = contours_one.begin();
@@ -269,13 +340,14 @@ int main()
 	drawContours(result, afterFilter, -1, Scalar(255), CV_FILLED);
 	imshow("去除小面积结果图", result);
 	waitKey(0);
-	for (int num = 0; num < 5; num++)
+
+	/*for (int num = 0; num < 5; num++)
 		dilate(result, result, element);
 
 	imshow("连接下面的部分5次膨胀结果图", result);
 	morphologyEx(result, result, MORPH_CLOSE, element, Point(-1, -1), 10);
 	imshow("闭运算再次迭代10次结果图", result);
-	waitKey(0);
+	waitKey(0);*/
 
 	Mat result_two = Mat::zeros(model_show.rows, model_show.cols, CV_8UC1);
 	vector<vector<Point>> contours_two;
@@ -292,13 +364,15 @@ int main()
 			afterFilter_three.push_back(contours_two[c]);
 	}
 	drawContours(result_two, afterFilter_three, -1, Scalar(255), CV_FILLED);
-	imshow("去除小面积结果图", result_two);
-	waitKey(10);
+	imshow("再次去除去除小面积结果图", result_two);
+	waitKey(0);
+
+	//转灰度画框
 	Mat result_uchar = Mat::zeros(result.rows, result.cols, CV_8UC1);
 	result_two.convertTo(result_uchar, CV_8UC1);
 	vector<vector<Point> > contours_three;
 	vector<Vec4i> hierarchy_three;
-	findContours(result_uchar.clone(), contours_three, hierarchy_three, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+	findContours(result_uchar.clone(), contours_three, hierarchy_three, RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
 	Mat rectangle_one = Mat::zeros(model_show.rows, model_show.cols, CV_8UC3);
 	vector<Rect> boundRect_one(contours_three.size());  //定义外接矩形集合
 	vector<RotatedRect> box_one(contours_three.size());
@@ -312,7 +386,7 @@ int main()
 		box_one[i] = minAreaRect(Mat(contours_three[i]));  //计算每个轮廓最小外接矩形
 		boundRect_one[i] = boundingRect(Mat(contours_three[i]));
 		circle(rectangle_one, Point(box_one[i].center.x, box_one[i].center.y), 5, Scalar(0, 255, 0), -1, 8);  //绘制最小外接矩形的中心点
-		box_one[i].points(rect_one);  //把最小外接矩形四个端点复制给rect数组
+		box_one[i].points(rect_one);  //把最小外接矩形四个端点复制给rect数组  复制构造
 		rectangle(rectangle_one, Point(boundRect_one[i].x, boundRect_one[i].y), Point(boundRect_one[i].x + boundRect_one[i].width, boundRect_one[i].y + boundRect_one[i].height), Scalar(0, 255, 0), 2, 8);
 		//cout << "start" <<center_one.size() << endl;
 		center_one[i] = box_one[i].center.x;
@@ -323,7 +397,7 @@ int main()
 			rec_vec[i].push_back(rect_one[j]);			/*cout << "第"<<j<<"个角点"<< rect[j] << endl;*/
 		}
 		imshow("绘制最小外接矩形结果图", rectangle_one);
-		waitKey(10);
+		waitKey(0);
 	}
 	vector<int>ind;
 	BubbleSort(center_one, ind);
@@ -349,6 +423,7 @@ int main()
 		cout << "贴标签x坐标值" << "= " << sprit_all[0].at<float>(point_four.y, point_four.x) << endl;
 		cout << "贴标签y坐标值" << "= " << sprit_all[1].at<float>(point_four.y, point_four.x) << endl;
 		cout << "贴标签z坐标值" << "= " << sprit_all[2].at<float>(point_four.y, point_four.x) << endl;
+		namedWindow("moxingtu", WINDOW_NORMAL);
 		imshow("moxingtu", channel_one);
 		waitKey(0);
 		Point point_five;

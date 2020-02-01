@@ -100,9 +100,9 @@ float sigmod(T x, T mid, T a)
 	return float(1 / (1 + exp((a * (mid - x)))));
 }
 
-int main2()
+int main()
 {
-	char * filePath = "C:\\Users\\AIBASE-Tech\\Desktop\\Í¼Ïñ´¢´æ";
+	const char * filePath = "D:\\testimage";
 	vector<string> pic_namelist;
 	getFiles(filePath, pic_namelist);
 	for (int k = 0; k < pic_namelist.size(); k++)
@@ -128,7 +128,7 @@ int main2()
 		{
 			for (int j = 0; j < channel_one.cols; j++)
 			{
-				if (channel_two.at<float>(i, j) <885)
+				if (channel_two.at<float>(i, j) <1060)
 				{
 					model_show.at<float>(i, j) = channel_one.at<uchar>(i, j);
 					model_z.at<float>(i, j) = sprit_all[2].at<float>(i, j);

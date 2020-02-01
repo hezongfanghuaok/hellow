@@ -99,7 +99,7 @@ static Mat drawGoodMatches(
 	return img_matches;
 }
 
-int main(int argc, char** argv)
+void main1(int argc, char** argv)
 {
 	surf1();
 }

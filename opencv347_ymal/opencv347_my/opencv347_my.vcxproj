@@ -75,8 +75,8 @@
     <LibraryPath>D:\Program Files %28x86%29\opencv347\install\x64\vc15\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\Program Files %28x86%29\opencv347\install\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Program Files %28x86%29\opencv347\install\x64\vc15\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\Program Files (x86)\opencv347\install\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Program Files (x86)\opencv347\install\x64\vc15\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -130,7 +130,7 @@
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="openmain.cpp" />
+    <ClCompile Include="openmain2920201.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

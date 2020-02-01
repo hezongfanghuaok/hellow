@@ -3,8 +3,8 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <IncludePath>D:\Program Files\opencv3.4.7free\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Program Files\opencv3.4.7free\x64\vc15\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\Program Files %28x86%29\opencv347\install\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Program Files %28x86%29\opencv347\install\x64\vc15\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup />
   <ItemGroup />

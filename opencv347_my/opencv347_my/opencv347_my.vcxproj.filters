@@ -20,10 +20,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="openmain.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="surftest.cpp">
+    <ClCompile Include="59_Scharr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
