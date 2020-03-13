@@ -75,8 +75,8 @@
     <LibraryPath>D:\Program Files %28x86%29\opencv347\install\x64\vc15\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\Program Files (x86)\opencv347\install\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Program Files (x86)\opencv347\install\x64\vc15\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\Program Files\opencv420\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Program Files\opencv420\install\x64\vc14\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -95,7 +95,7 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opencv_world347d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_world420d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
