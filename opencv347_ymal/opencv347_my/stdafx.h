@@ -19,7 +19,7 @@
 #include "opencv2/imgproc.hpp"
 //#include "opencv2/xfeatures2d.hpp"
 
-#pragma comment(lib,"opencv_world347d.lib")
+#pragma comment(lib,"opencv_world420d.lib")
 
 #include <vector>
 #include <time.h>

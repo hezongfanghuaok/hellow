@@ -145,7 +145,7 @@ int main()
 	Mat channel_three;
 	Mat channel_four;
 	Mat channel_s;
-	FileStorage fs2("D:\\testimage\\0924.yaml", FileStorage::READ);//101161kk
+	FileStorage fs2("D:\\github\\testimg\\0924.yaml", FileStorage::READ);//101161kk
 	if (!fs2.isOpened())
 	{
 		fprintf(stderr, "%s:%d:loadParams falied. 'camera.yml' does not exist\n", __FILE__, __LINE__);
@@ -282,7 +282,7 @@ int main()
 	Mat result = Mat::zeros(channel_two.rows, channel_two.cols, CV_8UC1);
 	vector<vector<Point>> contours_one;
 	vector<Vec4i>hierarchy_one;
-	findContours(Edge_result_two.clone(), contours_one, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+	findContours(Edge_result_two.clone(), contours_one, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE, Point(0, 0));
 	vector<vector<Point>> afterFilter;
 	cout << contours_one.size() << endl;
 	vector<vector<Point>>::iterator itc = contours_one.begin();
@@ -293,7 +293,7 @@ int main()
 		if (area > 800)
 			afterFilter.push_back(contours_one[c]);
 	}
-	drawContours(result, afterFilter, -1, Scalar(255), CV_FILLED);
+	drawContours(result, afterFilter, -1, Scalar(255), FILLED);
 	namedWindow("去除小面积结果图", WINDOW_NORMAL);
 	imshow("去除小面积结果图", result);
 	waitKey(0);
@@ -315,7 +315,7 @@ int main()
 	vector<Vec4i>hierarchy_two;
 	//Mat result_uchar = Mat::zeros(result.rows, result.cols, CV_8UC1);
 	//result.convertTo(result_uchar, CV_8UC1);
-	findContours(result.clone(), contours_two, hierarchy_two, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+	findContours(result.clone(), contours_two, hierarchy_two, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE, Point(0, 0));
 	vector<vector<Point>> afterFilter_three;
 	for (size_t c = 0; c < contours_two.size(); c++)
 	{
@@ -324,7 +324,7 @@ int main()
 		if (area > 5000)
 			afterFilter_three.push_back(contours_two[c]);
 	}
-	drawContours(result_two, afterFilter_three, -1, Scalar(255), CV_FILLED);
+	drawContours(result_two, afterFilter_three, -1, Scalar(255), FILLED);
 	namedWindow("再次去除去除小面积结果图", WINDOW_NORMAL);
 	imshow("再次去除去除小面积结果图", result_two);
 	waitKey(0);
@@ -337,7 +337,7 @@ int main()
 	result_two.convertTo(result_uchar, CV_8UC1);
 	vector<vector<Point> > contours_three;
 	vector<Vec4i> hierarchy_three;
-	findContours(result_uchar.clone(), contours_three, hierarchy_three, RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+	findContours(result_uchar.clone(), contours_three, hierarchy_three, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE, Point(0, 0));
 	Mat rectangle_one = Mat::zeros(model_show.rows, model_show.cols, CV_8UC3);
 	vector<Rect> boundRect_one(contours_three.size());  //定义外接矩形集合
 	vector<RotatedRect> box_one(contours_three.size());
