@@ -145,7 +145,7 @@ int main()
 	Mat channel_three;
 	Mat channel_four;
 	Mat channel_s;
-	FileStorage fs2("D:\\github\\testimg\\0924.yaml", FileStorage::READ);//101161kk
+	FileStorage fs2("../../../testfile/0924.yaml", FileStorage::READ);//101161kk
 	if (!fs2.isOpened())
 	{
 		fprintf(stderr, "%s:%d:loadParams falied. 'camera.yml' does not exist\n", __FILE__, __LINE__);
@@ -226,7 +226,8 @@ int main()
 				show.at<float>(Point(i, j)) = sigmod(Edge.at<float>(Point(i, j)), matMean, angle) * 255;
 		}
 	}
-	imshow("扩大阈值后展示图", show);
+	namedWindow("test", WINDOW_NORMAL);
+	imshow("test", show);
 	waitKey(0);
 
 
@@ -343,7 +344,7 @@ int main()
 	vector<RotatedRect> box_one(contours_three.size());
 	Point2f rect_one[4];
 	cout << "contours_three.size()" << contours_three.size() << endl;
-
+	
 	vector<vector<Point2f>> rec_vec(contours_three.size());
 	vector<float>center_one(contours_three.size());
 	vector<float>center_one_y(contours_three.size());
